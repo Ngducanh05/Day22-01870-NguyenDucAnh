@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0.0",
+  "metadata": {
+    "student_name": "Nguyễn Đức Anh",
+    "student_id": "01870",
+    "group_id": "GROUP-01870",
+    "submitted_at": "2026-08-24T19:42:00+07:00"
+  },
+  "industry": "education-ai-tutor",
+  "product_context": {
+    "product_name": "CourseGuide AI Tutor",
+    "product_stage": "pilot",
+    "problem_statement": "University students in large technical courses often wait too long for course-specific explanations and may turn to generic chatbots that can provide confident but incorrect answers or reveal full solutions before the student has learned the underlying skill.",
+    "target_users": [
+      "university students enrolled in the pilot course",
+      "teaching assistants and instructors acting as escalation reviewers"
+    ],
+    "value_hypothesis": "A course-grounded tutor that gives progressive hints and cites instructor-approved materials can reduce time to useful support while preserving or improving students' unassisted mastery compared with unsupported self-study.",
+    "in_scope": [
+      "answer course-content questions using instructor-approved materials",
+      "provide progressive Socratic hints after a student attempt",
+      "cite the course source used for factual claims",
+      "escalate uncertain, policy, assessment, or out-of-scope questions to teaching staff",
+      "collect pseudonymous quality and safety telemetry for pilot review"
+    ],
+    "non_goals": [
+      "automatic grading, ranking, admission, progression, or disciplinary decisions",
+      "exam proctoring, biometric monitoring, emotion inference, or behavioral surveillance",
+      "providing restricted assessment answer keys or completing active graded work for the student",
+      "medical, mental-health, financial, or legal advice",
+      "open-web retrieval outside instructor-approved course sources during the pilot"
+    ],
+    "user_journey_moment": "During self-study or practice, after the learner has attempted a problem and before the learner requests help from a teaching assistant or instructor.",
+    "target_launch_or_review_date": "2026-09-15",
+    "automation_level": "recommendation",
+    "fallback_experience": "If the AI is unavailable, paused, or below confidence threshold, the interface falls back to search over approved course notes and an escalation form that forwards the student's question and attempted work to a teaching assistant or instructor; no grade or access decision depends on the AI.",
+    "decision_reversibility": "partially-reversible"
+  },
+  "system_profile": {
+    "purpose": "Provide course-grounded formative tutoring and progressive hints that help university students understand technical material without making formal academic decisions.",
+    "user_groups": [
+      "university students",
+      "teaching assistants",
+      "course instructors"
+    ],
+    "decision_impact": "Tutor responses can influence a student's study strategy, misconception correction, and confidence, but the system is prohibited from determining grades, admission, progression, ranking, discipline, or exam outcomes.",
+    "data_types": [
+      "student question text",
+      "student attempted-solution text",
+      "instructor-approved course materials and worked examples",
+      "pseudonymous interaction telemetry and explicit user feedback"
+    ],
+    "deployment_context": "A limited university-course pilot for authenticated adult learners, with curated retrieval sources, documented escalation to teaching staff, sampled human audits, and no connection to the official grading system.",
+    "target_markets": [
+      "Vietnam",
+      "European Union"
+    ],
+    "system_boundary": {
+      "model": "A general-purpose large language model used through retrieval-augmented generation, progressive-hint prompting, output checks, and refusal or escalation policies.",
+      "application": "A web-based course tutor integrated with the course portal but technically isolated from gradebook, admissions, proctoring, and disciplinary systems.",
+      "people": [
+        "students",
+        "teaching assistants",
+        "course instructors",
+        "Learning Product Owner",
+        "Responsible AI and academic-integrity reviewer"
+      ],
+      "vendors": [
+        "external LLM inference provider",
+        "cloud hosting and learning-platform provider"
+      ],
+      "upstream_inputs": [
+        "instructor-approved syllabus and course notes",
+        "approved worked examples and assessment policies",
+        "student questions and attempted solutions",
+        "system prompt, safety rules, and retrieval configuration"
+      ],
+      "downstream_decisions": [
+        "provide a progressive hint",
+        "provide a source-grounded explanation",
+        "refuse a request for restricted or unsafe content",
+        "escalate the question to teaching staff",
+        "never issue an official grade, rank, admission, progression, or discipline decision"
+      ]
+    }
+  },
+  "industry_risk_snapshot": {
+    "harm_severity": 3,
+    "high_stakes": 3,
+    "sensitive_data": 2,
+    "affected_scale": 3,
+    "human_review_need": 4,
+    "rationale": "The pilot does not make grades, admission, progression, or disciplinary decisions, so the immediate stakes are lower than formal educational decision systems; however, incorrect tutoring and answer-giving can create persistent misconceptions or reduce independent learning. The PNAS field experiment observed worse unassisted performance under an unguarded GPT-style tutor, while peer-reviewed ITS research found non-trivial rates of weak or incorrect generated feedback. Data are limited by design to course interactions and pseudonymous telemetry, but students may still enter personal information, so minimization and deletion controls remain necessary. Human review is important for sampled correctness audits, escalation, and pause authority even though every low-risk tutoring response is not pre-approved by a person."
+  },
+  "legal_classification": {
+    "vietnam": {
+      "status": "uncertain-requires-legal-review",
+      "rationale": "Vietnam's AI Law and implementing instruments are in force. Decision 33/2026/QĐ-TTg lists several education AI uses as high risk, including large-scale automatic self-study content using uncontrolled learning-content data, automatic testing or ranking used as an official basis, and intrusive learner monitoring. This pilot deliberately uses instructor-controlled materials, small scope, and no grading, ranking, or surveillance, but a signed use-case classification and provider/deployer obligation review is still required before launch.",
+      "source_ids": [
+        "SRC-04",
+        "SRC-05",
+        "SRC-06"
+      ]
+    },
+    "eu": {
+      "status": "limited-transparency",
+      "rationale": "As scoped, the tutor does not determine educational access or admission, evaluate official learning outcomes, assign an education level, or monitor prohibited behavior during tests, which are the education uses identified as high risk in the EU AI Act. It does directly interact with natural persons, so Article 50 transparency obligations for interactive AI are relevant from 2 August 2026. EU counsel must still confirm provider/deployer roles, territorial scope, and whether any future feature change moves the system into Annex III high-risk use.",
+      "source_ids": [
+        "SRC-07",
+        "SRC-08"
+      ]
+    },
+    "other_markets": "Not assessed for this release; the pilot scope is limited to Vietnam and a future European Union deployment path, and any additional market requires a fresh legal and product-risk review.",
+    "legal_review_required": true
+  },
+  "product_metrics": {
+    "success_kpi": "On instructor-authored unassisted weekly quizzes, consenting pilot users improve mean mastery by at least 5 percentage points from their pre-pilot baseline without a statistically or practically meaningful decline in any monitored subgroup.",
+    "risk_kri": "In a weekly stratified audit of at least 200 tutor responses when volume permits, the combined rate of factually incorrect, misleading, or premature bottom-out/full-solution hints stays at or below 5%, with high-severity incorrect guidance separately tracked.",
+    "guardrail_metric": "Confirmed critical events must remain exactly zero: no fabricated assessment policy, no restricted answer-key disclosure, no official grade/rank/admission/discipline decision, and no high-severity unsafe advice; the first confirmed event pauses generative tutoring.",
+    "review_cadence": "Review weekly during the pilot and monthly after any approved scale-up; review immediately after a guardrail breach, material incident, model/vendor change, retrieval-corpus change, new assessment feature, new target market, or material scope change."
+  },
+  "release_decision": {
+    "accountable_product_owner": "Learning Product Owner",
+    "risk_acceptance_owner": "Director of Teaching and Learning",
+    "independent_reviewer": "Responsible AI and Academic Integrity Reviewer",
+    "decision": "conditional-go",
+    "release_blockers": [
+      "GAP-01: learning-preservation guardrails and unassisted-mastery gate are not yet evidenced",
+      "GAP-02: independent feedback-quality audit and escalation gate are not yet completed",
+      "GAP-03: Vietnam use-case classification and legal sign-off are not yet completed",
+      "GAP-04: EU classification and Article 50 transparency evidence are not yet completed",
+      "GAP-05: privacy, minimization, retention, and deletion controls are not yet acceptance-tested"
+    ],
+    "release_conditions": [
+      "Student-facing pilot is limited to at most 100 consenting adult learners in one course, uses only instructor-approved retrieval material, and remains disconnected from grading, admissions, proctoring, ranking, and disciplinary systems.",
+      "GAP-01, GAP-02, GAP-03, and GAP-05 must be done before the Vietnam student pilot opens; EU access remains disabled until GAP-04 is done.",
+      "Any hard-guardrail breach or specified KRI threshold breach pauses generative tutoring and reverts users to approved-course search plus teaching-staff escalation."
+    ],
+    "next_review_trigger": "Review no later than 2026-09-15, or earlier on any hard-guardrail event, KRI threshold breach, model or vendor change, retrieval-corpus change, assessment integration, target-market expansion, or material change to automation level.",
+    "residual_risk_rationale": "Even with curated retrieval and progressive-hint controls, hallucination, pedagogically weak feedback, over-reliance, and inappropriate user prompts remain possible. Conditional release is acceptable only at small pilot scale because the AI cannot make formal academic decisions, human escalation is available, independent audits are required, and a hard-stop rule limits continued exposure when evidence shows learning or safety degradation."
+  }
+}
